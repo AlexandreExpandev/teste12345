@@ -36,7 +36,7 @@ jobs:
           echo "Backend folder contents before zip:"
           ls -la
           echo "Creating optimized zip without node_modules..."
-          zip -r ../release.zip .             -x "*.git*"             -x "node_modules/*"             -x "*.log"             -x ".env"             -x "coverage/*"             -x "dist/*"             -x ".next/*"
+          zip -r ../release.zip .             -x "*.git*"             -x "node_modules/*"             -x "*.log"             -x ".env"             -x "coverage/*"             -x ".next/*"
           cd ..
           echo "Release zip created, size:"
           ls -lh release.zip
@@ -89,9 +89,9 @@ jobs:
         with:
           app-name: 'expandev-app-05'
           package: .
-          startup-command: 'npm start'
         env:
           SCM_DO_BUILD_DURING_DEPLOYMENT: 'true'
           WEBSITE_RUN_FROM_PACKAGE: '0'
           ENABLE_ORYX_BUILD: 'true'
           NPM_CONFIG_PRODUCTION: 'false'
+          POST_BUILD_COMMAND: 'npm run build'
