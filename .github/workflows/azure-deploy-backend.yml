@@ -35,11 +35,13 @@ jobs:
         run: |
           echo "Backend folder contents before zip:"
           ls -la
-          echo "Creating optimized zip without node_modules..."
-          zip -r ../release.zip .             -x "*.git*"             -x "node_modules/*"             -x "*.log"             -x ".env"             -x "coverage/*"             -x ".next/*"
+          echo "Creating zip with all files including node_modules..."
+          zip -r ../release.zip . -x "*.git*"
           cd ..
           echo "Release zip created, size:"
           ls -lh release.zip
+          echo "Checking zip contents:"
+          unzip -l release.zip | head -20
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -89,9 +91,8 @@ jobs:
         with:
           app-name: 'expandev-app-05'
           package: .
+          startup-command: 'npm start'
         env:
-          SCM_DO_BUILD_DURING_DEPLOYMENT: 'true'
+          SCM_DO_BUILD_DURING_DEPLOYMENT: 'false'
           WEBSITE_RUN_FROM_PACKAGE: '0'
-          ENABLE_ORYX_BUILD: 'true'
-          NPM_CONFIG_PRODUCTION: 'false'
-          POST_BUILD_COMMAND: 'npm run build'
+          ENABLE_ORYX_BUILD: 'false'
